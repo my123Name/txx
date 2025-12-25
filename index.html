@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #000;
             color: #e8f0e8;
             overflow: hidden;
@@ -22,15 +22,7 @@
             width: 100%;
         }
 
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* 配置页面样式 - 移动端优化 */
+        /* 配置页面样式 */
         .config-page {
             position: fixed;
             top: 0;
@@ -46,19 +38,18 @@
             transition: opacity 0.8s ease, transform 0.8s ease;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 15px;
+            padding: 20px 15px;
         }
 
         .config-content {
             background: rgba(10, 30, 10, 0.95);
             border-radius: 15px;
-            padding: 20px 15px;
+            padding: 20px;
             width: 100%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(218, 165, 32, 0.2);
             text-align: center;
             border: 1px solid rgba(218, 165, 32, 0.3);
-            margin: 10px 0;
         }
 
         .config-title {
@@ -67,13 +58,13 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(34, 139, 34, 0.5);
             line-height: 1.2;
         }
 
         .config-subtitle {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #DAA520;
             margin-bottom: 20px;
             line-height: 1.4;
@@ -87,7 +78,7 @@
         .section-title {
             font-size: 1.2rem;
             color: #DAA520;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -96,7 +87,7 @@
         .upload-area {
             border: 2px dashed #228B22;
             border-radius: 12px;
-            padding: 20px 15px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
@@ -137,11 +128,6 @@
             object-fit: cover;
             border-radius: 5px;
             border: 2px solid rgba(218, 165, 32, 0.5);
-            transition: transform 0.3s;
-        }
-
-        .preview-img:active {
-            transform: scale(1.1);
         }
 
         .text-input {
@@ -167,7 +153,7 @@
             background: linear-gradient(135deg, #228B22, #DAA520);
             color: white;
             border: none;
-            padding: 16px 25px;
+            padding: 16px 30px;
             border-radius: 50px;
             font-weight: bold;
             font-size: 1.1rem;
@@ -176,7 +162,6 @@
             box-shadow: 0 6px 15px rgba(34, 139, 34, 0.4);
             margin-top: 15px;
             width: 100%;
-            max-width: 300px;
             -webkit-appearance: none;
         }
 
@@ -185,47 +170,7 @@
             box-shadow: 0 3px 10px rgba(34, 139, 34, 0.4);
         }
 
-        /* 手势说明区域 - 移动端优化 */
-        .gesture-guide {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(34, 139, 34, 0.1);
-            border-radius: 12px;
-            text-align: left;
-            border: 1px solid rgba(218, 165, 32, 0.3);
-        }
-
-        .gesture-guide h3 {
-            color: #DAA520;
-            margin-bottom: 12px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        .gesture-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-
-        .gesture-icon {
-            font-size: 1.5rem;
-            margin-right: 12px;
-            width: 35px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .gesture-text {
-            color: #c8e6c9;
-            font-size: 0.9rem;
-            line-height: 1.3;
-        }
-
-        /* 主页面样式 - 移动端优化 */
+        /* 主页面 */
         .main-page {
             position: fixed;
             top: 0;
@@ -236,58 +181,33 @@
             flex-direction: column;
         }
 
-        /* 摄像头视图 - 移动端优化 */
-        .camera-container {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            width: 120px;
-            height: 90px;
-            border: 2px solid #228B22;
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 10;
-            background: #000;
-            box-shadow: 0 0 15px rgba(34, 139, 34, 0.5);
-        }
-
-        #camera-view {
+        /* 3D画布容器 */
+        #canvas-container {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transform: scaleX(-1); /* 镜像翻转，更自然 */
-        }
-
-        .camera-label {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            background: rgba(34, 139, 34, 0.9);
-            color: white;
-            padding: 3px 8px;
-            font-size: 0.7rem;
-            border-radius: 0 0 5px 0;
         }
 
-        /* 模式指示器 - 移动端优化 */
+        /* 模式指示器 */
         .mode-indicator {
             position: fixed;
             top: 15px;
             left: 15px;
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 10px 12px;
+            padding: 12px 15px;
             border-radius: 10px;
             z-index: 10;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(218, 165, 32, 0.5);
-            font-size: 0.8rem;
-            max-width: 150px;
-            min-width: 120px;
+            font-size: 0.9rem;
+            max-width: 160px;
         }
 
         .current-gesture {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-align: center;
             margin-bottom: 5px;
         }
@@ -295,26 +215,26 @@
         /* 触摸控制按钮 */
         .touch-controls {
             position: fixed;
-            bottom: 15px;
-            left: 15px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             z-index: 10;
         }
 
         .touch-btn {
-            background: rgba(34, 139, 34, 0.8);
+            background: rgba(34, 139, 34, 0.9);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 15px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             font-size: 1.5rem;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(34, 139, 34, 0.4);
+            box-shadow: 0 4px 15px rgba(34, 139, 34, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -325,6 +245,24 @@
         .touch-btn:active {
             transform: scale(0.95);
             background: rgba(34, 139, 34, 1);
+        }
+
+        /* 手势提示 */
+        .gesture-hint {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            z-index: 10;
+            text-align: center;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            max-width: 90%;
         }
 
         /* 加载动画 */
@@ -358,15 +296,15 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 提示信息 - 移动端优化 */
+        /* 提示信息 */
         .toast {
             position: fixed;
-            bottom: 80px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(34, 139, 34, 0.9);
             color: white;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border-radius: 8px;
             font-weight: bold;
             z-index: 1000;
@@ -378,197 +316,71 @@
             font-size: 0.9rem;
         }
 
-        /* 安全区域适配（iPhone X等刘海屏） */
+        /* 安全区域适配 */
         @supports (padding: max(0px)) {
             .config-page {
-                padding-top: max(15px, env(safe-area-inset-top));
-                padding-bottom: max(15px, env(safe-area-inset-bottom));
+                padding-top: max(20px, env(safe-area-inset-top));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
                 padding-left: max(15px, env(safe-area-inset-left));
                 padding-right: max(15px, env(safe-area-inset-right));
             }
             
-            .camera-container {
-                right: max(15px, env(safe-area-inset-right));
-                bottom: max(15px, env(safe-area-inset-bottom));
+            .touch-controls {
+                bottom: max(20px, env(safe-area-inset-bottom) + 10px);
+            }
+            
+            .gesture-hint {
+                bottom: max(100px, env(safe-area-inset-bottom) + 80px);
             }
             
             .mode-indicator {
                 left: max(15px, env(safe-area-inset-left));
                 top: max(15px, env(safe-area-inset-top));
             }
-            
-            .touch-controls {
-                left: max(15px, env(safe-area-inset-left));
-                bottom: max(15px, env(safe-area-inset-bottom));
-            }
-            
-            .toast {
-                bottom: max(80px, env(safe-area-inset-bottom) + 60px);
-            }
         }
 
-        /* 3D画布容器 */
-        #canvas-container {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-        /* 移动端横屏优化 */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .config-content {
-                max-width: 90%;
-                max-height: 90vh;
-                overflow-y: auto;
-            }
-            
-            .config-title {
-                font-size: 1.8rem;
-            }
-            
-            .config-section {
-                margin-bottom: 15px;
-            }
-            
-            .upload-area {
-                padding: 15px 10px;
-            }
-            
-            .preview-container {
-                max-height: 80px;
-            }
-            
-            .preview-img {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .camera-container {
-                width: 100px;
-                height: 75px;
-                right: 10px;
-                bottom: 10px;
-            }
-            
-            .touch-controls {
-                flex-direction: row;
-                bottom: 10px;
-                left: 10px;
-            }
-            
-            .touch-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-            }
-        }
-
-        /* 小屏幕手机优化 */
+        /* 响应式调整 */
         @media (max-width: 360px) {
             .config-title {
                 font-size: 1.8rem;
             }
             
-            .config-content {
-                padding: 15px 12px;
-            }
-            
-            .upload-area {
-                padding: 15px 12px;
-            }
-            
-            .btn {
-                padding: 14px 20px;
-                font-size: 1rem;
+            .touch-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
             }
             
             .mode-indicator {
-                max-width: 130px;
-                min-width: 110px;
-                padding: 8px 10px;
-            }
-            
-            .camera-container {
-                width: 100px;
-                height: 75px;
-            }
-            
-            .touch-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
+                max-width: 140px;
+                padding: 10px 12px;
             }
         }
 
-        /* 大屏幕手机优化 */
         @media (min-width: 768px) {
             .config-content {
-                padding: 30px 25px;
+                padding: 30px;
             }
             
             .config-title {
                 font-size: 2.5rem;
             }
             
-            .config-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-            }
-            
-            .gesture-text {
-                font-size: 1rem;
-            }
-            
-            .camera-container {
-                width: 150px;
-                height: 112px;
-                right: 20px;
-                bottom: 20px;
+            .touch-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
             }
             
             .mode-indicator {
                 left: 20px;
                 top: 20px;
                 max-width: 180px;
-                font-size: 0.9rem;
             }
-            
-            .current-gesture {
-                font-size: 1.4rem;
-            }
-            
-            .touch-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 1.7rem;
-            }
-        }
-
-        /* 防止iOS输入框缩放 */
-        @media screen and (-webkit-min-device-pixel-ratio:0) and (max-device-width: 1024px) {
-            input, textarea {
-                font-size: 16px !important;
-            }
-        }
-
-        /* 避免长按出现菜单 */
-        .config-page, .main-page, #canvas-container, .camera-container {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
     </style>
     <!-- Three.js 库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- MediaPipe 手势识别库 -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
 </head>
 <body>
     <!-- 配置页面 -->
@@ -582,7 +394,7 @@
                 <div class="upload-area" id="photo-upload-area">
                     <div class="upload-icon">📷</div>
                     <p style="font-size: 1rem; color: #DAA520; margin-bottom: 5px;">点击或拖放照片到这里</p>
-                    <p style="font-size: 0.85rem; color: #c8e6c9;">支持 JPG, PNG 格式 (最多20张)</p>
+                    <p style="font-size: 0.85rem; color: #c8e6c9;">支持 JPG, PNG 格式 (最多10张)</p>
                     <input type="file" class="file-input" id="photo-input" accept="image/*" multiple>
                 </div>
                 <div class="preview-container" id="photo-preview"></div>
@@ -591,7 +403,6 @@
             <div class="config-section">
                 <h2 class="section-title">💌 圣诞祝福语</h2>
                 <input type="text" class="text-input" id="message-input" placeholder="输入您想在圣诞树旁显示的文字祝福..." value="圣诞快乐！愿爱与平安与您同在">
-                <p style="font-size: 0.85rem; color: #c8e6c9; margin-top: 5px;">这段文字将在圣诞树模式下显示在树的上方</p>
             </div>
 
             <div class="config-section">
@@ -605,31 +416,10 @@
                 <div id="music-preview" style="margin-top: 12px; color: #DAA520; font-size: 0.9rem;"></div>
             </div>
 
-            <div class="gesture-guide">
-                <h3>👋 手势控制说明</h3>
-                <div class="gesture-item">
-                    <div class="gesture-icon">✊</div>
-                    <div class="gesture-text">握拳或食指伸直 - 圣诞树模式（显示文字）</div>
-                </div>
-                <div class="gesture-item">
-                    <div class="gesture-icon">✋</div>
-                    <div class="gesture-text">五指张开 - 星尘模式（照片云）</div>
-                </div>
-                <div class="gesture-item">
-                    <div class="gesture-icon">🤏</div>
-                    <div class="gesture-text">拇指食指捏合 - 聚焦模式（随机照片特写）</div>
-                </div>
-                <p style="font-size: 0.85rem; color: #DAA520; margin-top: 10px; text-align: center;">
-                    如果手势识别不工作，可使用屏幕下方的触摸按钮
-                </p>
-            </div>
-
-            <div style="display: flex; justify-content: center; width: 100%;">
-                <button class="btn" id="start-experience-btn">✨ 进入魔法世界 ✨</button>
-            </div>
+            <button class="btn" id="start-experience-btn">✨ 进入魔法世界 ✨</button>
 
             <p style="margin-top: 15px; font-size: 0.85rem; color: #c8e6c9; text-align: center;">
-                提示：进入魔法世界后，使用手势控制变换圣诞树形态
+                进入魔法世界后，使用屏幕下方的触摸按钮控制圣诞树形态
             </p>
         </div>
     </div>
@@ -641,29 +431,27 @@
 
         <!-- 模式指示器 -->
         <div class="mode-indicator" id="mode-indicator">
-            <div class="current-gesture" id="current-gesture">✊</div>
+            <div class="current-gesture" id="current-gesture">🎄</div>
             <div>模式: <span id="current-mode">圣诞树模式</span></div>
         </div>
 
+        <!-- 手势提示 -->
+        <div class="gesture-hint" id="gesture-hint">
+            使用下方按钮切换模式
+        </div>
+
         <!-- 触摸控制按钮 -->
-        <div class="touch-controls" id="touch-controls" style="display: none;">
+        <div class="touch-controls" id="touch-controls">
             <button class="touch-btn" id="tree-btn" title="圣诞树模式">🎄</button>
             <button class="touch-btn" id="cloud-btn" title="星尘模式">☁️</button>
             <button class="touch-btn" id="focus-btn" title="聚焦模式">🔍</button>
-        </div>
-
-        <!-- 摄像头视图 -->
-        <div class="camera-container">
-            <div class="camera-label">手势识别</div>
-            <video id="camera-view" autoplay playsinline></video>
         </div>
     </div>
 
     <!-- 加载动画 -->
     <div class="loading" id="loading">
         <div class="spinner"></div>
-        <p style="color: #DAA520; font-size: 1.1rem; text-align: center;">正在初始化魔法圣诞树...</p>
-        <p style="margin-top: 10px; font-size: 0.85rem; color: #DAA520; text-align: center;">请允许摄像头访问以使用手势控制</p>
+        <p style="color: #DAA520; font-size: 1.1rem; text-align: center;">正在创建魔法圣诞树...</p>
     </div>
 
     <!-- 提示信息 -->
@@ -681,15 +469,11 @@
     let heartParticle = null;
     let textParticle = null;
     let currentMode = 'tree';
-    let hands = null;
-    let cameraStream = null;
     let uploadedPhotos = [];
     let backgroundMusic = null;
     let isPlayingMusic = false;
-    let particleCount = 800; // 降低粒子数量以提高性能
+    let particleCount = 600; // 减少粒子数量以提高性能
     let userMessage = "圣诞快乐！愿爱与平安与您同在";
-    let lastGestureTime = 0;
-    const gestureCooldown = 1500; // 增加手势冷却时间
 
     // DOM元素
     const configPage = document.getElementById('config-page');
@@ -705,34 +489,13 @@
     const treeBtn = document.getElementById('tree-btn');
     const cloudBtn = document.getElementById('cloud-btn');
     const focusBtn = document.getElementById('focus-btn');
+    const gestureHint = document.getElementById('gesture-hint');
 
     // 初始化配置页面事件
     function initConfigPage() {
         // 照片上传
         const photoUploadArea = document.getElementById('photo-upload-area');
-
-        photoUploadArea.addEventListener('click', () => {
-            photoInput.click();
-        });
-
-        photoUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            photoUploadArea.style.background = 'rgba(34, 139, 34, 0.2)';
-        });
-
-        photoUploadArea.addEventListener('dragleave', () => {
-            photoUploadArea.style.background = 'rgba(34, 139, 34, 0.1)';
-        });
-
-        photoUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            photoUploadArea.style.background = 'rgba(34, 139, 34, 0.1)';
-
-            if (e.dataTransfer.files.length > 0) {
-                handlePhotoUpload(e.dataTransfer.files);
-            }
-        });
-
+        photoUploadArea.addEventListener('click', () => photoInput.click());
         photoInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 handlePhotoUpload(e.target.files);
@@ -741,11 +504,7 @@
 
         // 音乐上传
         const musicUploadArea = document.getElementById('music-upload-area');
-
-        musicUploadArea.addEventListener('click', () => {
-            musicInput.click();
-        });
-
+        musicUploadArea.addEventListener('click', () => musicInput.click());
         musicInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 handleMusicUpload(e.target.files[0]);
@@ -782,50 +541,19 @@
                 initMainApp();
             }, 800);
         });
-
-        // 移动端触摸事件优化
-        preventPullToRefresh();
-    }
-
-    // 防止下拉刷新
-    function preventPullToRefresh() {
-        let startY = 0;
-        
-        document.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                startY = e.touches[0].clientY;
-            }
-        }, { passive: true });
-        
-        document.addEventListener('touchmove', (e) => {
-            if (e.touches.length === 1) {
-                const touchY = e.touches[0].clientY;
-                const touchDiff = touchY - startY;
-                
-                // 如果是下拉动作，且当前位置在顶部附近
-                if (touchDiff > 0 && window.scrollY === 0) {
-                    e.preventDefault();
-                }
-            }
-        }, { passive: false });
     }
 
     // 处理照片上传
     function handlePhotoUpload(files) {
-        const fileCount = Math.min(files.length, 20);
+        const fileCount = Math.min(files.length, 10);
         let loadedCount = 0;
         
-        Array.from(files).slice(0, 20).forEach(file => {
-            if (!file.type.match('image.*')) {
-                return;
-            }
+        Array.from(files).slice(0, 10).forEach(file => {
+            if (!file.type.match('image.*')) return;
 
             const reader = new FileReader();
-
             reader.onload = (e) => {
                 loadedCount++;
-                
-                // 存储照片数据
                 uploadedPhotos.push({
                     data: e.target.result,
                     name: file.name
@@ -837,12 +565,10 @@
                 img.className = 'preview-img';
                 photoPreview.appendChild(img);
 
-                // 如果已经加载完所有图片
                 if (loadedCount === fileCount) {
                     showToast(`已上传 ${fileCount} 张照片`);
                 }
             };
-
             reader.readAsDataURL(file);
         });
     }
@@ -855,7 +581,6 @@
         }
 
         const reader = new FileReader();
-
         reader.onload = (e) => {
             if (backgroundMusic) {
                 backgroundMusic.pause();
@@ -866,70 +591,73 @@
 
             const shortName = file.name.length > 20 ? file.name.substring(0, 18) + '...' : file.name;
             musicPreview.innerHTML = `<strong>已上传音乐:</strong> ${shortName}`;
-
             showToast(`已上传音乐: ${shortName}`);
         };
-
         reader.readAsDataURL(file);
     }
 
     // 初始化主应用
     async function initMainApp() {
-        // 初始化Three.js场景
-        initThreeJS();
-
-        // 初始化粒子系统
-        initParticles();
-
-        // 初始化蛇形星光
-        initSnakeStars();
-
-        // 初始化落雪效果
-        initSnow();
-
-        // 创建圣诞树顶部爱心
-        createHeartOnTop();
-
-        // 创建文字粒子
-        createTextParticle();
-
-        // 创建照片粒子
-        createPhotoParticles();
-
-        // 初始化触摸控制按钮
-        initTouchControls();
-
         try {
-            // 初始化手势识别
-            await initHandTracking();
-        } catch (error) {
-            console.error('手势识别初始化失败:', error);
-            showToast('手势识别不可用，已启用触摸按钮控制');
-            touchControls.style.display = 'flex';
-        }
-
-        // 隐藏加载界面
-        setTimeout(() => {
-            loadingElement.style.opacity = '0';
+            // 初始化Three.js场景
+            initThreeJS();
+            
+            // 初始化粒子系统
+            initParticles();
+            
+            // 初始化蛇形星光
+            initSnakeStars();
+            
+            // 初始化落雪效果
+            initSnow();
+            
+            // 创建圣诞树顶部爱心
+            createHeartOnTop();
+            
+            // 创建文字粒子
+            createTextParticle();
+            
+            // 创建照片粒子
+            createPhotoParticles();
+            
+            // 初始化触摸控制
+            initTouchControls();
+            
+            // 隐藏加载界面
             setTimeout(() => {
-                loadingElement.style.display = 'none';
-                showToast('魔法圣诞树已就绪！使用手势或触摸按钮控制');
-
-                // 自动播放音乐
-                if (backgroundMusic) {
-                    backgroundMusic.play().catch(e => {
-                        console.log('音乐播放需要用户交互');
-                    });
-                    isPlayingMusic = true;
-                }
-            }, 500);
-        }, 2000);
-
-        // 开始动画循环
-        animate();
+                loadingElement.style.opacity = '0';
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                    showToast('魔法圣诞树已就绪！');
+                    
+                    // 自动播放音乐
+                    if (backgroundMusic) {
+                        backgroundMusic.play().catch(e => {
+                            console.log('音乐播放需要用户交互');
+                        });
+                        isPlayingMusic = true;
+                    }
+                    
+                    // 5秒后隐藏手势提示
+                    setTimeout(() => {
+                        gestureHint.style.opacity = '0';
+                        setTimeout(() => {
+                            gestureHint.style.display = 'none';
+                        }, 500);
+                    }, 5000);
+                }, 500);
+            }, 2000);
+            
+            // 开始动画循环
+            animate();
+        } catch (error) {
+            console.error('初始化失败:', error);
+            showToast('初始化失败，请刷新页面重试');
+            loadingElement.style.display = 'none';
+        }
     }
 
-    // 初始化触摸控制按钮
+    // 初始化触摸控制
     function initTouchControls() {
         treeBtn.addEventListener('click', () => {
             arrangeParticlesAsTree();
@@ -1007,7 +735,6 @@
     function initParticles() {
         const colors = [0x228B22, 0x32CD32, 0xDAA520, 0xB22222, 0xFFD700];
 
-        // 创建装饰粒子
         for (let i = 0; i < particleCount; i++) {
             let geometry;
             let material;
@@ -1068,9 +795,47 @@
         arrangeParticlesAsTree();
     }
 
+    // 创建爱心几何体
+    function createHeartGeometry(size) {
+        const shape = new THREE.Shape();
+        const x = 0, y = 0;
+
+        shape.moveTo(x + 0.5 * size, y + 0.5 * size);
+        shape.bezierCurveTo(
+            x + 0.5 * size, y + 0.8 * size,
+            x + 0.2 * size, y + 1.0 * size,
+            x, y + 0.6 * size
+        );
+        shape.bezierCurveTo(
+            x - 0.3 * size, y + 0.1 * size,
+            x - 0.1 * size, y - 0.4 * size,
+            x + 0.5 * size, y - 0.8 * size
+        );
+        shape.bezierCurveTo(
+            x + 1.1 * size, y - 0.4 * size,
+            x + 1.3 * size, y + 0.1 * size,
+            x + 1.0 * size, y + 0.6 * size
+        );
+        shape.bezierCurveTo(
+            x + 0.8 * size, y + 1.0 * size,
+            x + 0.5 * size, y + 0.8 * size,
+            x + 0.5 * size, y + 0.5 * size
+        );
+
+        const extrudeSettings = {
+            depth: 0.1,
+            bevelEnabled: true,
+            bevelThickness: 0.05,
+            bevelSize: 0.05,
+            bevelSegments: 3
+        };
+
+        return new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    }
+
     // 初始化蛇形星光
     function initSnakeStars() {
-        const snakeCount = 150; // 减少数量
+        const snakeCount = 100;
 
         for (let i = 0; i < snakeCount; i++) {
             const starMaterial = new THREE.MeshBasicMaterial({
@@ -1179,47 +944,9 @@
         scene.add(textParticle);
     }
 
-    // 创建爱心几何体
-    function createHeartGeometry(size) {
-        const shape = new THREE.Shape();
-        const x = 0, y = 0;
-
-        shape.moveTo(x + 0.5 * size, y + 0.5 * size);
-        shape.bezierCurveTo(
-            x + 0.5 * size, y + 0.8 * size,
-            x + 0.2 * size, y + 1.0 * size,
-            x, y + 0.6 * size
-        );
-        shape.bezierCurveTo(
-            x - 0.3 * size, y + 0.1 * size,
-            x - 0.1 * size, y - 0.4 * size,
-            x + 0.5 * size, y - 0.8 * size
-        );
-        shape.bezierCurveTo(
-            x + 1.1 * size, y - 0.4 * size,
-            x + 1.3 * size, y + 0.1 * size,
-            x + 1.0 * size, y + 0.6 * size
-        );
-        shape.bezierCurveTo(
-            x + 0.8 * size, y + 1.0 * size,
-            x + 0.5 * size, y + 0.8 * size,
-            x + 0.5 * size, y + 0.5 * size
-        );
-
-        const extrudeSettings = {
-            depth: 0.1,
-            bevelEnabled: true,
-            bevelThickness: 0.05,
-            bevelSize: 0.05,
-            bevelSegments: 3
-        };
-
-        return new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    }
-
     // 初始化落雪效果
     function initSnow() {
-        const snowCount = 300; // 减少雪花数量
+        const snowCount = 200;
         const snowGeometry = new THREE.SphereGeometry(0.05, 4, 4);
         const snowMaterial = new THREE.MeshBasicMaterial({
             color: 0xFFFFFF,
@@ -1249,7 +976,7 @@
     // 创建照片粒子
     function createPhotoParticles() {
         // 限制照片数量以提高性能
-        const maxPhotos = Math.min(uploadedPhotos.length, 10);
+        const maxPhotos = Math.min(uploadedPhotos.length, 8);
         
         uploadedPhotos.slice(0, maxPhotos).forEach((photo, i) => {
             const texture = new THREE.Texture();
@@ -1340,7 +1067,7 @@
         }
 
         currentMode = 'tree';
-        updateStatusText('圣诞树模式', '✊');
+        updateStatusText('圣诞树模式', '🎄');
     }
 
     // 排列蛇形星光
@@ -1437,7 +1164,7 @@
         }
 
         currentMode = 'scatter';
-        updateStatusText('星尘模式', '✋');
+        updateStatusText('星尘模式', '☁️');
     }
 
     // 将照片粒子按球状排列形成照片云
@@ -1543,7 +1270,7 @@
         }
 
         currentMode = 'focus';
-        updateStatusText('聚焦模式', '🤏');
+        updateStatusText('聚焦模式', '🔍');
         showToast('已聚焦到随机照片');
     }
 
@@ -1551,169 +1278,6 @@
     function updateStatusText(modeName, gestureIcon) {
         document.getElementById('current-mode').textContent = modeName;
         document.getElementById('current-gesture').textContent = gestureIcon;
-    }
-
-    // 初始化手势识别
-    async function initHandTracking() {
-        const videoElement = document.getElementById('camera-view');
-
-        try {
-            // 移动端优化：使用前置摄像头和较低分辨率
-            const constraints = {
-                video: {
-                    width: { ideal: 320 },
-                    height: { ideal: 240 },
-                    facingMode: 'user',
-                    frameRate: { ideal: 15 }
-                }
-            };
-            
-            cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
-            videoElement.srcObject = cameraStream;
-            showToast('摄像头已启用，开始手势识别');
-        } catch (err) {
-            console.error('无法访问摄像头:', err);
-            showToast('无法访问摄像头，已启用触摸按钮控制');
-            touchControls.style.display = 'flex';
-            throw err;
-        }
-
-        // 使用MediaPipe Hands进行手势识别
-        hands = new Hands({
-            locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-            }
-        });
-
-        hands.setOptions({
-            maxNumHands: 1,
-            modelComplexity: 0, // 移动端使用简化模型
-            minDetectionConfidence: 0.7,
-            minTrackingConfidence: 0.5
-        });
-
-        // 手势识别结果处理
-        hands.onResults(onHandResults);
-
-        // 创建相机实例
-        const camera = new Camera(videoElement, {
-            onFrame: async () => {
-                if (hands) {
-                    try {
-                        await hands.send({image: videoElement});
-                    } catch (e) {
-                        console.warn('手势识别处理中...');
-                    }
-                }
-            },
-            width: 320,
-            height: 240
-        });
-
-        camera.start();
-    }
-
-    // 处理手势识别结果 - 这是关键的手势交互逻辑
-    function onHandResults(results) {
-        if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
-            return;
-        }
-
-        const landmarks = results.multiHandLandmarks[0];
-        
-        // 获取关键点
-        const thumbTip = landmarks[4];
-        const indexTip = landmarks[8];
-        const middleTip = landmarks[12];
-        const ringTip = landmarks[16];
-        const pinkyTip = landmarks[20];
-
-        const indexMCP = landmarks[5];
-        const middleMCP = landmarks[9];
-        const ringMCP = landmarks[13];
-        const pinkyMCP = landmarks[17];
-
-        // 计算指尖与对应掌骨的距离（判断手指是否伸直）
-        // 调整阈值，提高灵敏度
-        const indexStraight = distance(indexTip, indexMCP) > 0.12;
-        const middleStraight = distance(middleTip, middleMCP) > 0.12;
-        const ringStraight = distance(ringTip, ringMCP) > 0.12;
-        const pinkyStraight = distance(pinkyTip, pinkyMCP) > 0.12;
-
-        // 判断捏合手势（拇指和食指）
-        const pinchDistance = distance(thumbTip, indexTip);
-
-        // 判断食指伸直（其他手指弯曲） - 作为回到圣诞树形态的手势
-        const indexOnly = indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
-
-        // 判断握拳手势（所有手指都弯曲）
-        const fist = !indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
-
-        // 判断张开手势（所有手指都伸直）
-        const openHand = indexStraight && middleStraight && ringStraight && pinkyStraight;
-
-        // 防止手势重复触发
-        const currentTime = Date.now();
-        if (currentTime - lastGestureTime < gestureCooldown) {
-            return;
-        }
-
-        // 手势判断逻辑
-        if (pinchDistance < 0.1 && indexStraight) {
-            // 捏合手势 - 聚焦模式
-            if (currentMode !== 'focus') {
-                focusRandomPhoto();
-                lastGestureTime = currentTime;
-                showToast('手势识别：捏合 → 聚焦模式');
-            }
-        } else if (openHand) {
-            // 五指张开 - 星尘模式
-            if (currentMode !== 'scatter') {
-                scatterParticles();
-                lastGestureTime = currentTime;
-                showToast('手势识别：张开 → 星尘模式');
-            }
-        } else if (fist || indexOnly) {
-            // 握拳或食指伸直 - 快速回到圣诞树形态
-            if (currentMode !== 'tree') {
-                arrangeParticlesAsTree();
-                lastGestureTime = currentTime;
-                showToast('手势识别：握拳 → 圣诞树模式');
-            }
-        }
-    }
-
-    // 自动演示模式
-    function startDemoMode() {
-        let modeIndex = 0;
-        const modes = ['tree', 'scatter', 'focus'];
-
-        setInterval(() => {
-            modeIndex = (modeIndex + 1) % modes.length;
-
-            switch(modes[modeIndex]) {
-                case 'tree':
-                    arrangeParticlesAsTree();
-                    updateStatusText('圣诞树模式', '✊');
-                    break;
-                case 'scatter':
-                    scatterParticles();
-                    updateStatusText('星尘模式', '✋');
-                    break;
-                case 'focus':
-                    focusRandomPhoto();
-                    updateStatusText('聚焦模式', '🤏');
-                    break;
-            }
-        }, 6000);
-    }
-
-    // 计算两点间距离
-    function distance(point1, point2) {
-        const dx = point1.x - point2.x;
-        const dy = point1.y - point2.y;
-        const dz = point1.z - point2.z;
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     // 显示提示信息
@@ -1724,7 +1288,7 @@
 
         setTimeout(() => {
             toast.style.opacity = '0';
-        }, 3000);
+        }, 2000);
     }
 
     // 动画循环
@@ -1766,7 +1330,6 @@
         photoParticles.forEach(particle => {
             particle.position.lerp(particle.userData.targetPosition, particle.userData.speed);
             particle.scale.lerp(particle.userData.targetScale, particle.userData.speed);
-
             particle.lookAt(camera.position);
         });
 
@@ -1828,44 +1391,18 @@
     // 页面加载完成后初始化配置页面
     document.addEventListener('DOMContentLoaded', initConfigPage);
 
-    // 处理页面可见性变化（移动端标签页切换）
+    // 处理页面可见性变化
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            // 页面隐藏时暂停音乐
             if (backgroundMusic && isPlayingMusic) {
                 backgroundMusic.pause();
             }
         } else {
-            // 页面显示时恢复音乐
             if (backgroundMusic && isPlayingMusic) {
                 backgroundMusic.play().catch(e => {
                     console.log('音乐恢复需要用户交互');
                 });
             }
-        }
-    });
-
-    // 处理移动端返回按钮
-    window.addEventListener('popstate', (e) => {
-        if (mainPage.style.display === 'flex') {
-            // 如果在主页面，返回到配置页面
-            mainPage.style.display = 'none';
-            configPage.style.display = 'flex';
-            configPage.style.opacity = '1';
-            configPage.style.transform = 'scale(1)';
-            
-            // 暂停音乐
-            if (backgroundMusic) {
-                backgroundMusic.pause();
-                isPlayingMusic = false;
-            }
-            
-            // 关闭摄像头
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(track => track.stop());
-            }
-            
-            e.preventDefault();
         }
     });
 </script>
