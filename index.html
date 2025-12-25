@@ -292,6 +292,41 @@
             margin-bottom: 5px;
         }
 
+        /* 触摸控制按钮 */
+        .touch-controls {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .touch-btn {
+            background: rgba(34, 139, 34, 0.8);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(34, 139, 34, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(218, 165, 32, 0.5);
+        }
+
+        .touch-btn:active {
+            transform: scale(0.95);
+            background: rgba(34, 139, 34, 1);
+        }
+
         /* 加载动画 */
         .loading {
             position: fixed;
@@ -362,6 +397,11 @@
                 top: max(15px, env(safe-area-inset-top));
             }
             
+            .touch-controls {
+                left: max(15px, env(safe-area-inset-left));
+                bottom: max(15px, env(safe-area-inset-bottom));
+            }
+            
             .toast {
                 bottom: max(80px, env(safe-area-inset-bottom) + 60px);
             }
@@ -411,6 +451,18 @@
                 right: 10px;
                 bottom: 10px;
             }
+            
+            .touch-controls {
+                flex-direction: row;
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .touch-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
         }
 
         /* 小屏幕手机优化 */
@@ -441,6 +493,12 @@
             .camera-container {
                 width: 100px;
                 height: 75px;
+            }
+            
+            .touch-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
         }
 
@@ -482,6 +540,12 @@
             
             .current-gesture {
                 font-size: 1.4rem;
+            }
+            
+            .touch-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.7rem;
             }
         }
 
@@ -555,6 +619,9 @@
                     <div class="gesture-icon">🤏</div>
                     <div class="gesture-text">拇指食指捏合 - 聚焦模式（随机照片特写）</div>
                 </div>
+                <p style="font-size: 0.85rem; color: #DAA520; margin-top: 10px; text-align: center;">
+                    如果手势识别不工作，可使用屏幕下方的触摸按钮
+                </p>
             </div>
 
             <div style="display: flex; justify-content: center; width: 100%;">
@@ -578,6 +645,13 @@
             <div>模式: <span id="current-mode">圣诞树模式</span></div>
         </div>
 
+        <!-- 触摸控制按钮 -->
+        <div class="touch-controls" id="touch-controls" style="display: none;">
+            <button class="touch-btn" id="tree-btn" title="圣诞树模式">🎄</button>
+            <button class="touch-btn" id="cloud-btn" title="星尘模式">☁️</button>
+            <button class="touch-btn" id="focus-btn" title="聚焦模式">🔍</button>
+        </div>
+
         <!-- 摄像头视图 -->
         <div class="camera-container">
             <div class="camera-label">手势识别</div>
@@ -598,7 +672,7 @@
 </html>
 
 <script>
-    // 全局变量 - 保持不变
+    // 全局变量
     let scene, camera, renderer;
     let particles = [];
     let photoParticles = [];
@@ -612,10 +686,10 @@
     let uploadedPhotos = [];
     let backgroundMusic = null;
     let isPlayingMusic = false;
-    let particleCount = 1500;
+    let particleCount = 800; // 降低粒子数量以提高性能
     let userMessage = "圣诞快乐！愿爱与平安与您同在";
     let lastGestureTime = 0;
-    const gestureCooldown = 1000;
+    const gestureCooldown = 1500; // 增加手势冷却时间
 
     // DOM元素
     const configPage = document.getElementById('config-page');
@@ -627,6 +701,10 @@
     const photoPreview = document.getElementById('photo-preview');
     const musicPreview = document.getElementById('music-preview');
     const loadingElement = document.getElementById('loading');
+    const touchControls = document.getElementById('touch-controls');
+    const treeBtn = document.getElementById('tree-btn');
+    const cloudBtn = document.getElementById('cloud-btn');
+    const focusBtn = document.getElementById('focus-btn');
 
     // 初始化配置页面事件
     function initConfigPage() {
@@ -818,15 +896,24 @@
         // 创建照片粒子
         createPhotoParticles();
 
-        // 初始化手势识别
-        await initHandTracking();
+        // 初始化触摸控制按钮
+        initTouchControls();
+
+        try {
+            // 初始化手势识别
+            await initHandTracking();
+        } catch (error) {
+            console.error('手势识别初始化失败:', error);
+            showToast('手势识别不可用，已启用触摸按钮控制');
+            touchControls.style.display = 'flex';
+        }
 
         // 隐藏加载界面
         setTimeout(() => {
             loadingElement.style.opacity = '0';
             setTimeout(() => {
                 loadingElement.style.display = 'none';
-                showToast('魔法圣诞树已就绪！使用手势控制变换');
+                showToast('魔法圣诞树已就绪！使用手势或触摸按钮控制');
 
                 // 自动播放音乐
                 if (backgroundMusic) {
@@ -840,6 +927,24 @@
 
         // 开始动画循环
         animate();
+    }
+
+    // 初始化触摸控制按钮
+    function initTouchControls() {
+        treeBtn.addEventListener('click', () => {
+            arrangeParticlesAsTree();
+            showToast('切换到圣诞树模式');
+        });
+
+        cloudBtn.addEventListener('click', () => {
+            scatterParticles();
+            showToast('切换到星尘模式');
+        });
+
+        focusBtn.addEventListener('click', () => {
+            focusRandomPhoto();
+            showToast('切换到聚焦模式');
+        });
     }
 
     // 初始化Three.js场景
@@ -965,7 +1070,7 @@
 
     // 初始化蛇形星光
     function initSnakeStars() {
-        const snakeCount = 200;
+        const snakeCount = 150; // 减少数量
 
         for (let i = 0; i < snakeCount; i++) {
             const starMaterial = new THREE.MeshBasicMaterial({
@@ -1114,7 +1219,7 @@
 
     // 初始化落雪效果
     function initSnow() {
-        const snowCount = 500;
+        const snowCount = 300; // 减少雪花数量
         const snowGeometry = new THREE.SphereGeometry(0.05, 4, 4);
         const snowMaterial = new THREE.MeshBasicMaterial({
             color: 0xFFFFFF,
@@ -1143,7 +1248,10 @@
 
     // 创建照片粒子
     function createPhotoParticles() {
-        uploadedPhotos.forEach((photo, i) => {
+        // 限制照片数量以提高性能
+        const maxPhotos = Math.min(uploadedPhotos.length, 10);
+        
+        uploadedPhotos.slice(0, maxPhotos).forEach((photo, i) => {
             const texture = new THREE.Texture();
             const img = new Image();
             img.onload = () => {
@@ -1357,6 +1465,7 @@
     // 聚焦随机照片
     function focusRandomPhoto() {
         if (photoParticles.length === 0) {
+            showToast('没有照片可供聚焦');
             return;
         }
 
@@ -1461,11 +1570,12 @@
             
             cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
             videoElement.srcObject = cameraStream;
+            showToast('摄像头已启用，开始手势识别');
         } catch (err) {
             console.error('无法访问摄像头:', err);
-            showToast('无法访问摄像头，将使用自动演示模式');
-            startDemoMode();
-            return;
+            showToast('无法访问摄像头，已启用触摸按钮控制');
+            touchControls.style.display = 'flex';
+            throw err;
         }
 
         // 使用MediaPipe Hands进行手势识别
@@ -1478,7 +1588,7 @@
         hands.setOptions({
             maxNumHands: 1,
             modelComplexity: 0, // 移动端使用简化模型
-            minDetectionConfidence: 0.5,
+            minDetectionConfidence: 0.7,
             minTrackingConfidence: 0.5
         });
 
@@ -1488,10 +1598,12 @@
         // 创建相机实例
         const camera = new Camera(videoElement, {
             onFrame: async () => {
-                try {
-                    await hands.send({image: videoElement});
-                } catch (e) {
-                    console.warn('手势识别处理中...');
+                if (hands) {
+                    try {
+                        await hands.send({image: videoElement});
+                    } catch (e) {
+                        console.warn('手势识别处理中...');
+                    }
                 }
             },
             width: 320,
@@ -1522,10 +1634,11 @@
         const pinkyMCP = landmarks[17];
 
         // 计算指尖与对应掌骨的距离（判断手指是否伸直）
-        const indexStraight = distance(indexTip, indexMCP) > 0.15;
-        const middleStraight = distance(middleTip, middleMCP) > 0.15;
-        const ringStraight = distance(ringTip, ringMCP) > 0.15;
-        const pinkyStraight = distance(pinkyTip, pinkyMCP) > 0.15;
+        // 调整阈值，提高灵敏度
+        const indexStraight = distance(indexTip, indexMCP) > 0.12;
+        const middleStraight = distance(middleTip, middleMCP) > 0.12;
+        const ringStraight = distance(ringTip, ringMCP) > 0.12;
+        const pinkyStraight = distance(pinkyTip, pinkyMCP) > 0.12;
 
         // 判断捏合手势（拇指和食指）
         const pinchDistance = distance(thumbTip, indexTip);
@@ -1546,23 +1659,26 @@
         }
 
         // 手势判断逻辑
-        if (pinchDistance < 0.08 && indexStraight) {
+        if (pinchDistance < 0.1 && indexStraight) {
             // 捏合手势 - 聚焦模式
             if (currentMode !== 'focus') {
                 focusRandomPhoto();
                 lastGestureTime = currentTime;
+                showToast('手势识别：捏合 → 聚焦模式');
             }
         } else if (openHand) {
             // 五指张开 - 星尘模式
             if (currentMode !== 'scatter') {
                 scatterParticles();
                 lastGestureTime = currentTime;
+                showToast('手势识别：张开 → 星尘模式');
             }
         } else if (fist || indexOnly) {
             // 握拳或食指伸直 - 快速回到圣诞树形态
             if (currentMode !== 'tree') {
                 arrangeParticlesAsTree();
                 lastGestureTime = currentTime;
+                showToast('手势识别：握拳 → 圣诞树模式');
             }
         }
     }
@@ -1742,6 +1858,11 @@
             if (backgroundMusic) {
                 backgroundMusic.pause();
                 isPlayingMusic = false;
+            }
+            
+            // 关闭摄像头
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
             }
             
             e.preventDefault();
