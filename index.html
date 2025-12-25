@@ -45,7 +45,7 @@
             overflow: hidden;
         }
 
-        /* 配置页面样式 - 移动端优化 */
+        /* 配置页面样式 */
         .config-page {
             position: fixed;
             top: 0;
@@ -62,7 +62,6 @@
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             padding: 0;
             box-sizing: border-box;
         }
@@ -210,7 +209,7 @@
             box-shadow: 0 3px 10px rgba(34, 139, 34, 0.4);
         }
 
-        /* 手势说明区域 - 移动端优化 */
+        /* 手势说明区域 */
         .gesture-guide {
             margin-top: 20px;
             padding: 15px;
@@ -250,7 +249,7 @@
             line-height: 1.4;
         }
 
-        /* 主页面样式 - 移动端优化 */
+        /* 主页面样式 */
         .main-page {
             position: fixed;
             top: 0;
@@ -271,7 +270,7 @@
             left: 0;
         }
 
-        /* 模式指示器 - 移动端优化 */
+        /* 模式指示器 */
         .mode-indicator {
             position: absolute;
             top: max(15px, env(safe-area-inset-top));
@@ -296,7 +295,7 @@
             margin-bottom: 5px;
         }
 
-        /* 移动端手势控制按钮 */
+        /* 移动端控制按钮 */
         .mobile-controls {
             position: absolute;
             bottom: max(15px, env(safe-area-inset-bottom));
@@ -308,7 +307,6 @@
             z-index: 10;
             padding: 0 15px;
             box-sizing: border-box;
-            display: none; /* 默认隐藏，JS中根据设备显示 */
         }
 
         .mobile-btn {
@@ -410,12 +408,7 @@
             background: rgba(218, 165, 32, 0.3);
         }
 
-        /* 摄像头视图 - 移动端隐藏 */
-        .camera-container {
-            display: none; /* 移动端隐藏摄像头，因为手势识别在移动端不工作 */
-        }
-
-        /* 响应式调整 - 针对不同屏幕尺寸 */
+        /* 响应式调整 */
         @media (max-width: 768px) {
             .config-title {
                 font-size: 1.6rem;
@@ -626,7 +619,7 @@
             </div>
 
             <div class="gesture-guide">
-                <h3>👋 手势控制说明</h3>
+                <h3>👋 控制说明</h3>
                 <div class="gesture-item">
                     <div class="gesture-icon">🎄</div>
                     <div class="gesture-text">圣诞树模式 - 显示所有照片在圣诞树上</div>
@@ -639,18 +632,18 @@
                     <div class="gesture-icon">🔍</div>
                     <div class="gesture-text">聚焦模式 - 随机放大一张照片查看</div>
                 </div>
-                <p style="font-size: 0.8rem; color: #DAA520; margin-top: 10px; text-align: center;">移动端请使用底部控制按钮切换模式</p>
+                <p style="font-size: 0.8rem; color: #DAA520; margin-top: 10px; text-align: center;">使用底部按钮或滑动屏幕切换模式</p>
             </div>
 
             <button class="btn" id="start-experience-btn">✨ 进入魔法世界 ✨</button>
 
             <p style="margin-top: 15px; font-size: 0.8rem; color: #c8e6c9; text-align: center;">
-                提示：进入魔法世界后，使用底部按钮控制变换圣诞树形态
+                提示：进入魔法世界后，使用底部按钮或滑动屏幕变换圣诞树形态
             </p>
         </div>
     </div>
 
-    <!-- 主页面 - 移动端优化 -->
+    <!-- 主页面 -->
     <div class="main-page" id="main-page">
         <!-- 3D视图区域 -->
         <div id="canvas-container" style="width: 100%; height: 100%;"></div>
@@ -664,7 +657,7 @@
             <div>模式: <span id="current-mode">圣诞树模式</span></div>
         </div>
 
-        <!-- 移动端手势控制按钮 -->
+        <!-- 移动端控制按钮 -->
         <div class="mobile-controls" id="mobile-controls">
             <button class="mobile-btn" id="tree-btn" title="圣诞树模式">🎄</button>
             <button class="mobile-btn" id="scatter-btn" title="星尘模式">✨</button>
@@ -696,7 +689,7 @@
     let uploadedPhotos = [];
     let backgroundMusic = null;
     let isPlayingMusic = false;
-    let particleCount = 800; // 移动端减少粒子数量
+    let particleCount = 800;
     let userMessage = "圣诞快乐！愿爱与平安与您同在";
     let isMobile = false;
     
@@ -726,12 +719,9 @@
     function initConfigPage() {
         // 检测设备
         isMobile = checkMobile();
-        console.log("设备检测:", isMobile ? "移动设备" : "桌面设备");
         
-        // 如果是移动设备，显示移动控制按钮
-        if (isMobile) {
-            mobileControls.style.display = 'flex';
-        }
+        // 始终显示移动控制按钮
+        mobileControls.style.display = 'flex';
 
         // 照片上传
         const photoUploadArea = document.getElementById('photo-upload-area');
@@ -814,7 +804,6 @@
 
                 // 限制最大照片数量
                 if (uploadedPhotos.length > maxPhotos) {
-                    showToast(`最多上传${maxPhotos}张照片，已自动截取前${maxPhotos}张`);
                     uploadedPhotos = uploadedPhotos.slice(0, maxPhotos);
                     // 更新预览
                     photoPreview.innerHTML = '';
@@ -863,25 +852,21 @@
         // 显示返回按钮
         backBtn.style.display = 'flex';
         
-        // 如果是移动设备，显示控制按钮
-        if (isMobile) {
-            mobileControls.style.display = 'flex';
-            
-            // 绑定移动控制按钮事件
-            treeBtn.addEventListener('click', () => {
-                arrangeParticlesAsTree();
-                showToast('已切换到圣诞树模式');
-            });
-            
-            scatterBtn.addEventListener('click', () => {
-                scatterParticles();
-                showToast('已切换到星尘模式');
-            });
-            
-            focusBtn.addEventListener('click', () => {
-                focusRandomPhoto();
-            });
-        }
+        // 显示控制按钮
+        mobileControls.style.display = 'flex';
+        
+        // 绑定移动控制按钮事件
+        treeBtn.addEventListener('click', () => {
+            arrangeParticlesAsTree();
+        });
+        
+        scatterBtn.addEventListener('click', () => {
+            scatterParticles();
+        });
+        
+        focusBtn.addEventListener('click', () => {
+            focusRandomPhoto();
+        });
 
         // 绑定返回按钮事件
         backBtn.addEventListener('click', () => {
@@ -926,32 +911,23 @@
             document.getElementById('loading').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('loading').style.display = 'none';
-                showToast('魔法圣诞树已就绪！' + (isMobile ? '使用底部按钮控制' : '使用按钮控制'));
+                showToast('魔法圣诞树已就绪！');
 
                 // 自动播放音乐
                 if (backgroundMusic) {
                     // 移动端需要用户交互才能播放音频
-                    if (isMobile) {
-                        // 添加一个点击事件来播放音乐
-                        const playMusicOnce = () => {
-                            backgroundMusic.play().then(() => {
-                                isPlayingMusic = true;
-                            }).catch(e => {
-                                console.log('音乐播放失败:', e);
-                            });
-                            document.removeEventListener('click', playMusicOnce);
-                            document.removeEventListener('touchstart', playMusicOnce);
-                        };
-                        
-                        document.addEventListener('click', playMusicOnce, { once: true });
-                        document.addEventListener('touchstart', playMusicOnce, { once: true });
-                    } else {
+                    const playMusicOnce = () => {
                         backgroundMusic.play().then(() => {
                             isPlayingMusic = true;
                         }).catch(e => {
-                            console.log('音乐播放需要用户交互');
+                            console.log('音乐播放失败');
                         });
-                    }
+                        document.removeEventListener('click', playMusicOnce);
+                        document.removeEventListener('touchstart', playMusicOnce);
+                    };
+                    
+                    document.addEventListener('click', playMusicOnce, { once: true });
+                    document.addEventListener('touchstart', playMusicOnce, { once: true });
                 }
             }, 500);
         }, 1500);
@@ -960,13 +936,13 @@
         animate();
     }
 
-    // 初始化Three.js场景 - 移动端优化
+    // 初始化Three.js场景
     function initThreeJS() {
         // 创建场景
         scene = new THREE.Scene();
         scene.fog = new THREE.Fog(0x000000, 10, 50);
 
-        // 创建相机 - 根据设备调整视野
+        // 创建相机
         const canvasContainer = document.getElementById('canvas-container');
         const isPortrait = window.innerHeight > window.innerWidth;
         
@@ -981,11 +957,11 @@
             camera.position.set(0, 5, 15);
         }
 
-        // 创建渲染器 - 移动端优化
+        // 创建渲染器
         renderer = new THREE.WebGLRenderer({ 
-            antialias: !isMobile, // 移动端关闭抗锯齿提升性能
+            antialias: !isMobile,
             alpha: true,
-            powerPreference: "high-performance" // 高性能模式
+            powerPreference: "high-performance"
         });
         
         // 移动端减少像素比提升性能
@@ -1018,7 +994,7 @@
         pointLight3.position.set(0, 6, 0);
         scene.add(pointLight3);
 
-        // 窗口大小调整事件 - 移动端优化
+        // 窗口大小调整事件
         let resizeTimeout;
         function handleResize() {
             clearTimeout(resizeTimeout);
@@ -1095,7 +1071,7 @@
         }
     }
 
-    // 初始化粒子系统 - 移动端优化
+    // 初始化粒子系统
     function initParticles() {
         const colors = [0x228B22, 0x32CD32, 0xDAA520, 0xB22222, 0xFFD700];
 
@@ -1160,7 +1136,7 @@
         arrangeParticlesAsTree();
     }
 
-    // 初始化蛇形星光 - 移动端优化
+    // 初始化蛇形星光
     function initSnakeStars() {
         const snakeCount = isMobile ? 80 : 120;
 
@@ -1201,7 +1177,7 @@
         }
     }
 
-    // 创建圣诞树顶部的爱心 - 移动端优化
+    // 创建圣诞树顶部的爱心
     function createHeartOnTop() {
         // 创建爱心几何体
         const x = 0, y = 0, size = 0.5;
@@ -1261,7 +1237,7 @@
         scene.add(heartParticle);
     }
 
-    // 创建文字粒子 - 移动端优化
+    // 创建文字粒子
     function createTextParticle() {
         // 创建文字精灵
         const canvas = document.createElement('canvas');
@@ -1279,7 +1255,7 @@
         context.fillStyle = 'rgba(0, 0, 0, 0)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 设置文字样式 - 移动端调整字体大小
+        // 设置文字样式
         const fontSize = isMobile ? (isPortrait ? 28 : 24) : 36;
         context.font = `bold ${fontSize}px Arial`;
         context.textAlign = 'center';
@@ -1324,7 +1300,7 @@
         const texture = new THREE.CanvasTexture(canvas);
         texture.needsUpdate = true;
 
-        // 创建平面显示文字 - 移动端调整大小
+        // 创建平面显示文字
         const textWidth = isMobile ? (isPortrait ? 8 : 6) : 10;
         const textHeight = textWidth * (canvasHeight / canvasWidth);
         const textGeometry = new THREE.PlaneGeometry(textWidth, textHeight);
@@ -1336,7 +1312,7 @@
         });
 
         textParticle = new THREE.Mesh(textGeometry, textMaterial);
-        // 文字放在树的上方 - 移动端调整位置
+        // 文字放在树的上方
         const textY = isMobile ? 6 : 7;
         textParticle.position.set(0, textY, 0);
         textParticle.visible = true;
@@ -1353,7 +1329,7 @@
         scene.add(textParticle);
     }
 
-    // 初始化落雪效果 - 移动端优化
+    // 初始化落雪效果
     function initSnow() {
         const snowCount = isMobile ? 200 : 300;
         const snowGeometry = new THREE.SphereGeometry(0.04, isMobile ? 3 : 4, isMobile ? 2 : 3);
@@ -1385,7 +1361,7 @@
         }
     }
 
-    // 创建照片粒子 - 移动端优化
+    // 创建照片粒子
     function createPhotoParticles() {
         // 移动端减少照片数量
         const maxPhotos = isMobile ? Math.min(uploadedPhotos.length, 12) : uploadedPhotos.length;
@@ -1457,7 +1433,7 @@
         // 使用更快的速度
         const fastSpeed = isMobile ? 0.1 : 0.08;
 
-        // 圆锥形状的圣诞树 - 使用圆锥坐标
+        // 圆锥形状的圣诞树
         particles.forEach((particle, i) => {
             // 将粒子分布在圆锥的各个层上
             const layerCount = isMobile ? 8 : 10;
@@ -1480,7 +1456,7 @@
             particle.userData.speed = fastSpeed;
         });
 
-        // 排列蛇形星光 - 围绕圆锥缠绕
+        // 排列蛇形星光
         arrangeSnakeStars();
 
         // 排列照片粒子在圆锥上
@@ -1493,7 +1469,7 @@
             heartParticle.userData.speed = fastSpeed * 1.5;
         }
 
-        // 显示文字 - 放在树的上方
+        // 显示文字
         if (textParticle) {
             const textY = isMobile ? 6 : 7;
             textParticle.userData.targetPosition.set(0, textY, 0);
@@ -1506,7 +1482,7 @@
         updateStatusText('圣诞树模式', '🎄');
     }
 
-    // 排列蛇形星光 - 围绕圆锥缠绕
+    // 排列蛇形星光
     function arrangeSnakeStars() {
         const coneHeight = isMobile ? 8 : 10;
         const coneRadius = isMobile ? 2.5 : 3;
@@ -1596,7 +1572,7 @@
             star.userData.speed = 0.03;
         });
 
-        // 照片粒子形成照片云（球状分布）
+        // 照片粒子形成照片云
         arrangePhotoParticlesInCloud();
 
         // 设置爱心位置随机
@@ -1756,7 +1732,7 @@
 
         setTimeout(() => {
             toast.style.opacity = '0';
-        }, 2500);
+        }, 2000);
     }
 
     // 动画循环
@@ -1775,7 +1751,7 @@
             particle.rotation.z += particle.userData.rotationSpeed.z;
         });
 
-        // 更新蛇形星光 - 蛇形运动
+        // 更新蛇形星光
         snakeStars.forEach(star => {
             if (star.userData.targetX !== undefined) {
                 // 平滑移动到目标位置
@@ -1885,7 +1861,6 @@
         // 监听横竖屏变化
         let orientationChangeTimeout;
         window.addEventListener('orientationchange', function() {
-            // 延迟执行以适应屏幕变化
             clearTimeout(orientationChangeTimeout);
             orientationChangeTimeout = setTimeout(() => {
                 // 重新初始化Three.js场景
