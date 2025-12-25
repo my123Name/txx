@@ -795,7 +795,7 @@
         reader.readAsDataURL(file);
     }
 
-    // 初始化主应用 - 保持不变
+    // 初始化主应用
     async function initMainApp() {
         // 初始化Three.js场景
         initThreeJS();
@@ -842,7 +842,7 @@
         animate();
     }
 
-    // 初始化Three.js场景 - 保持不变
+    // 初始化Three.js场景
     function initThreeJS() {
         // 创建场景
         scene = new THREE.Scene();
@@ -860,7 +860,7 @@
             powerPreference: "high-performance"
         });
         renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制像素比以优化性能
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setClearColor(0x000000, 1);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -898,7 +898,7 @@
         }, { passive: true });
     }
 
-    // 初始化粒子系统 - 保持不变
+    // 初始化粒子系统
     function initParticles() {
         const colors = [0x228B22, 0x32CD32, 0xDAA520, 0xB22222, 0xFFD700];
 
@@ -963,7 +963,7 @@
         arrangeParticlesAsTree();
     }
 
-    // 初始化蛇形星光 - 保持不变
+    // 初始化蛇形星光
     function initSnakeStars() {
         const snakeCount = 200;
 
@@ -1000,7 +1000,7 @@
         }
     }
 
-    // 创建圣诞树顶部的爱心 - 保持不变
+    // 创建圣诞树顶部的爱心
     function createHeartOnTop() {
         const heartGeometry = createHeartGeometry(0.6);
         const heartMaterial = new THREE.MeshPhongMaterial({
@@ -1026,7 +1026,7 @@
         scene.add(heartParticle);
     }
 
-    // 创建文字粒子 - 保持不变
+    // 创建文字粒子
     function createTextParticle() {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -1074,7 +1074,7 @@
         scene.add(textParticle);
     }
 
-    // 创建爱心几何体 - 保持不变
+    // 创建爱心几何体
     function createHeartGeometry(size) {
         const shape = new THREE.Shape();
         const x = 0, y = 0;
@@ -1112,7 +1112,7 @@
         return new THREE.ExtrudeGeometry(shape, extrudeSettings);
     }
 
-    // 初始化落雪效果 - 保持不变
+    // 初始化落雪效果
     function initSnow() {
         const snowCount = 500;
         const snowGeometry = new THREE.SphereGeometry(0.05, 4, 4);
@@ -1141,7 +1141,7 @@
         }
     }
 
-    // 创建照片粒子 - 保持不变
+    // 创建照片粒子
     function createPhotoParticles() {
         uploadedPhotos.forEach((photo, i) => {
             const texture = new THREE.Texture();
@@ -1193,7 +1193,7 @@
         });
     }
 
-    // 将粒子排列成圆锥形状的圣诞树 - 保持不变
+    // 将粒子排列成圆锥形状的圣诞树
     function arrangeParticlesAsTree() {
         const coneHeight = 12;
         const coneRadius = 5;
@@ -1235,7 +1235,7 @@
         updateStatusText('圣诞树模式', '✊');
     }
 
-    // 排列蛇形星光 - 保持不变
+    // 排列蛇形星光
     function arrangeSnakeStars() {
         snakeStars.forEach((star, i) => {
             const coneHeight = 12;
@@ -1256,7 +1256,7 @@
         });
     }
 
-    // 将照片粒子排列在圆锥上 - 保持不变
+    // 将照片粒子排列在圆锥上
     function arrangePhotoParticlesOnTree(speed) {
         photoParticles.forEach((particle, i) => {
             const totalPhotos = photoParticles.length;
@@ -1280,7 +1280,7 @@
         });
     }
 
-    // 将粒子炸开形成照片云 - 保持不变
+    // 将粒子炸开形成照片云
     function scatterParticles() {
         particles.forEach((particle, i) => {
             const angle = Math.random() * Math.PI * 2;
@@ -1332,7 +1332,7 @@
         updateStatusText('星尘模式', '✋');
     }
 
-    // 将照片粒子按球状排列形成照片云 - 保持不变
+    // 将照片粒子按球状排列形成照片云
     function arrangePhotoParticlesInCloud() {
         const cloudRadius = 8;
 
@@ -1354,7 +1354,7 @@
         });
     }
 
-    // 聚焦随机照片 - 保持不变
+    // 聚焦随机照片
     function focusRandomPhoto() {
         if (photoParticles.length === 0) {
             return;
@@ -1438,13 +1438,13 @@
         showToast('已聚焦到随机照片');
     }
 
-    // 更新状态文本 - 保持不变
+    // 更新状态文本
     function updateStatusText(modeName, gestureIcon) {
         document.getElementById('current-mode').textContent = modeName;
         document.getElementById('current-gesture').textContent = gestureIcon;
     }
 
-    // 初始化手势识别 - 移动端优化
+    // 初始化手势识别
     async function initHandTracking() {
         const videoElement = document.getElementById('camera-view');
 
@@ -1482,6 +1482,7 @@
             minTrackingConfidence: 0.5
         });
 
+        // 手势识别结果处理
         hands.onResults(onHandResults);
 
         // 创建相机实例
@@ -1500,7 +1501,73 @@
         camera.start();
     }
 
-    // 自动演示模式 - 保持不变
+    // 处理手势识别结果 - 这是关键的手势交互逻辑
+    function onHandResults(results) {
+        if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
+            return;
+        }
+
+        const landmarks = results.multiHandLandmarks[0];
+        
+        // 获取关键点
+        const thumbTip = landmarks[4];
+        const indexTip = landmarks[8];
+        const middleTip = landmarks[12];
+        const ringTip = landmarks[16];
+        const pinkyTip = landmarks[20];
+
+        const indexMCP = landmarks[5];
+        const middleMCP = landmarks[9];
+        const ringMCP = landmarks[13];
+        const pinkyMCP = landmarks[17];
+
+        // 计算指尖与对应掌骨的距离（判断手指是否伸直）
+        const indexStraight = distance(indexTip, indexMCP) > 0.15;
+        const middleStraight = distance(middleTip, middleMCP) > 0.15;
+        const ringStraight = distance(ringTip, ringMCP) > 0.15;
+        const pinkyStraight = distance(pinkyTip, pinkyMCP) > 0.15;
+
+        // 判断捏合手势（拇指和食指）
+        const pinchDistance = distance(thumbTip, indexTip);
+
+        // 判断食指伸直（其他手指弯曲） - 作为回到圣诞树形态的手势
+        const indexOnly = indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
+
+        // 判断握拳手势（所有手指都弯曲）
+        const fist = !indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
+
+        // 判断张开手势（所有手指都伸直）
+        const openHand = indexStraight && middleStraight && ringStraight && pinkyStraight;
+
+        // 防止手势重复触发
+        const currentTime = Date.now();
+        if (currentTime - lastGestureTime < gestureCooldown) {
+            return;
+        }
+
+        // 手势判断逻辑
+        if (pinchDistance < 0.08 && indexStraight) {
+            // 捏合手势 - 聚焦模式
+            if (currentMode !== 'focus') {
+                focusRandomPhoto();
+                lastGestureTime = currentTime;
+            }
+        } else if (openHand) {
+            // 五指张开 - 星尘模式
+            if (currentMode !== 'scatter') {
+                scatterParticles();
+                lastGestureTime = currentTime;
+            }
+        } else if (fist || indexOnly) {
+            // 握拳或食指伸直 - 快速回到圣诞树形态
+            if (currentMode !== 'tree') {
+                arrangeParticlesAsTree();
+                lastGestureTime = currentTime;
+            }
+        }
+    }
+
+    // 自动演示模式
     function startDemoMode() {
         let modeIndex = 0;
         const modes = ['tree', 'scatter', 'focus'];
@@ -1525,58 +1592,7 @@
         }, 6000);
     }
 
-    // 处理手势识别结果 - 保持不变
-    function onHandResults(results) {
-        if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
-            return;
-        }
-
-        const landmarks = results.multiHandLandmarks[0];
-        const thumbTip = landmarks[4];
-        const indexTip = landmarks[8];
-        const middleTip = landmarks[12];
-        const ringTip = landmarks[16];
-        const pinkyTip = landmarks[20];
-
-        const indexMCP = landmarks[5];
-        const middleMCP = landmarks[9];
-        const ringMCP = landmarks[13];
-        const pinkyMCP = landmarks[17];
-
-        const indexStraight = distance(indexTip, indexMCP) > 0.15;
-        const middleStraight = distance(middleTip, middleMCP) > 0.15;
-        const ringStraight = distance(ringTip, ringMCP) > 0.15;
-        const pinkyStraight = distance(pinkyTip, pinkyMCP) > 0.15;
-
-        const pinchDistance = distance(thumbTip, indexTip);
-        const indexOnly = indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
-        const fist = !indexStraight && !middleStraight && !ringStraight && !pinkyStraight;
-        const openHand = indexStraight && middleStraight && ringStraight && pinkyStraight;
-
-        const currentTime = Date.now();
-        if (currentTime - lastGestureTime < gestureCooldown) {
-            return;
-        }
-
-        if (pinchDistance < 0.08 && indexStraight) {
-            if (currentMode !== 'focus') {
-                focusRandomPhoto();
-                lastGestureTime = currentTime;
-            }
-        } else if (openHand) {
-            if (currentMode !== 'scatter') {
-                scatterParticles();
-                lastGestureTime = currentTime;
-            }
-        } else if (fist || indexOnly) {
-            if (currentMode !== 'tree') {
-                arrangeParticlesAsTree();
-                lastGestureTime = currentTime;
-            }
-        }
-    }
-
-    // 计算两点间距离 - 保持不变
+    // 计算两点间距离
     function distance(point1, point2) {
         const dx = point1.x - point2.x;
         const dy = point1.y - point2.y;
@@ -1584,7 +1600,7 @@
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    // 显示提示信息 - 保持不变
+    // 显示提示信息
     function showToast(message) {
         const toast = document.getElementById('toast');
         toast.textContent = message;
@@ -1595,7 +1611,7 @@
         }, 3000);
     }
 
-    // 动画循环 - 移动端性能优化
+    // 动画循环
     function animate() {
         requestAnimationFrame(animate);
         const time = Date.now() * 0.001;
