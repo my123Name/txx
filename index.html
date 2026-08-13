@@ -2,10 +2,11 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小红书图文 · 7张3:4竖版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek + GitHub 部署演示</title>
+  <!-- 完全内嵌CSS，无外部依赖，符合教程要求 -->
   <style>
-    /* 全局重置 & 基础样式 */
+    /* 全局重置 & 现代风格 */
     * {
       margin: 0;
       padding: 0;
@@ -13,488 +14,430 @@
     }
 
     body {
-      background: #f2f4f8;
+      background: linear-gradient(145deg, #f8faff 0%, #eef2f9 100%);
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      padding: 20px 12px;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      color: #1e293b;
     }
 
-    .page-wrapper {
-      max-width: 420px;
+    .container {
+      max-width: 1000px;
       width: 100%;
-      margin: 0 auto 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 48px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.2s ease;
     }
 
-    /* 每一张图 = 一个卡片，固定3:4竖版比例 */
-    .card {
-      background: #ffffff;
-      border-radius: 32px;
-      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.02);
-      padding: 24px 20px 28px;
-      aspect-ratio: 3 / 4;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.1s ease;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      position: relative;
-      overflow-y: auto;
-    }
-
-    /* 自定义滚动（保持干净） */
-    .card::-webkit-scrollbar {
-      width: 3px;
-    }
-    .card::-webkit-scrollbar-thumb {
-      background: #d0d7e2;
-      border-radius: 20px;
-    }
-
-    /* 图1 封面 */
-    .cover-title {
-      font-size: 28px;
-      font-weight: 750;
-      line-height: 1.2;
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
       letter-spacing: -0.02em;
-      background: linear-gradient(145deg, #0a1a2f, #26416b);
+      background: linear-gradient(135deg, #0b1e33, #2d4b71);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-top: 6px;
-    }
-    .cover-sub {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1e293b;
-      margin-top: 6px;
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 0.5rem;
       flex-wrap: wrap;
-    }
-    .cover-badge {
-      background: #dbeafe;
-      padding: 4px 14px;
-      border-radius: 40px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1e4b8a;
-    }
-    .cover-meta {
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .cover-meta span {
-      background: #f1f5f9;
-      padding: 4px 14px;
-      border-radius: 40px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-    .cover-demo {
-      margin-top: auto;
-      background: #0b1e33;
-      border-radius: 24px;
-      padding: 14px 16px;
-      color: #e2e8f0;
-      font-size: 14px;
-      border: 1px solid #2d4b71;
-    }
-    .cover-demo span {
-      background: #2563eb;
-      padding: 2px 12px;
-      border-radius: 40px;
-      color: white;
-      font-size: 12px;
     }
 
-    /* 通用步骤标 */
-    .step-tag {
+    .subhead {
+      font-size: 1.2rem;
+      color: #475569;
+      margin-bottom: 2rem;
+      border-left: 4px solid #3b82f6;
+      padding-left: 1.2rem;
+      background: rgba(59, 130, 246, 0.06);
+      border-radius: 0 12px 12px 0;
+      line-height: 1.6;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      margin: 1.5rem 0 2rem 0;
+    }
+
+    .badge {
+      background: white;
+      padding: 0.35rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1e293b;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      border: 1px solid #e2e8f0;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #f1f6fe;
-      border-radius: 40px;
-      padding: 4px 16px 4px 10px;
-      font-weight: 600;
-      font-size: 14px;
-      color: #0f172a;
-      margin-bottom: 12px;
-    }
-    .step-tag .num {
-      background: #0b1e33;
-      color: white;
-      border-radius: 30px;
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
     }
 
-    .code-box {
+    .badge span {
+      background: #3b82f6;
+      color: white;
+      border-radius: 40px;
+      padding: 0 0.6rem;
+      font-size: 0.7rem;
+      line-height: 1.6;
+    }
+
+    /* 卡片网格：模仿小红书截图风格 */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+      margin: 2.8rem 0 1.8rem;
+    }
+
+    .demo-card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .demo-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .demo-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+
+    .demo-card p {
+      font-size: 0.9rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .code-block {
       background: #0f172a;
       color: #e2e8f0;
-      border-radius: 20px;
-      padding: 12px 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 10px 0;
-      border: 1px solid #334155;
+      padding: 1.2rem 1.5rem;
+      border-radius: 24px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
       overflow-x: auto;
       white-space: pre-wrap;
       word-break: break-word;
+      margin: 1.8rem 0;
+      border: 1px solid #334155;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
     }
-    .code-box .comment {
+
+    .code-block span {
       color: #94a3b8;
     }
 
-    .highlight-box {
-      background: #eef4ff;
-      border-radius: 18px;
-      padding: 12px 16px;
+    .step-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin: 1.4rem 0;
+      padding: 0.8rem 1.2rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
       border-left: 4px solid #3b82f6;
-      font-size: 14px;
-      margin: 8px 0;
+    }
+
+    .step-num {
+      background: #3b82f6;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content strong {
+      color: #0f172a;
     }
 
     .mock-ui {
-      background: #f8fafc;
-      border-radius: 20px;
-      padding: 10px 14px;
+      background: white;
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      border: 1px solid #e9eef3;
+      margin: 1.2rem 0;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px 12px;
-      border: 1px solid #e9edf2;
-      margin: 6px 0;
+      gap: 1.2rem;
     }
+
     .mock-ui .file {
-      background: #e2e8f0;
-      padding: 2px 14px;
+      background: #f1f5f9;
+      padding: 0.4rem 1rem;
       border-radius: 40px;
+      font-size: 0.85rem;
       font-family: monospace;
-      font-size: 14px;
     }
+
     .mock-ui .btn {
       background: #1e293b;
       color: white;
-      padding: 2px 16px;
+      border: none;
+      padding: 0.4rem 1.2rem;
       border-radius: 40px;
-      font-size: 13px;
+      font-size: 0.8rem;
+      font-weight: 500;
     }
 
-    .grid-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 10px 0;
-    }
-    .grid-item {
-      background: #f8fafc;
-      border-radius: 18px;
-      padding: 12px 10px;
-      border: 1px solid #e9edf2;
-      text-align: center;
-      font-size: 14px;
-    }
-    .grid-item strong {
-      display: block;
-      font-size: 15px;
+    .mock-ui .link {
+      color: #2563eb;
+      text-decoration: underline;
+      font-size: 0.9rem;
     }
 
-    .warning-list {
-      background: #fefcf5;
-      border-radius: 20px;
-      padding: 14px 16px;
-      border: 1px solid #f1e9d0;
-      margin: 8px 0;
-    }
-    .warning-list li {
-      list-style: none;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 6px 0;
-      border-bottom: 1px solid #f1f1ed;
-      font-size: 14px;
-    }
-    .warning-list li:last-child {
-      border-bottom: 0;
-    }
-    .warning-list .icon {
-      color: #b91c1c;
-      font-weight: 700;
-    }
-
-    .footer-tags {
-      margin-top: auto;
+    .footnote {
+      margin-top: 2.5rem;
+      padding-top: 1.8rem;
+      border-top: 1px dashed #cbd5e1;
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      padding-top: 12px;
-      border-top: 1px dashed #dce1e8;
+      justify-content: space-between;
+      align-items: center;
+      color: #475569;
+      font-size: 0.9rem;
     }
-    .footer-tags span {
-      background: #eef2f6;
-      padding: 2px 14px;
-      border-radius: 40px;
-      font-size: 12px;
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag {
+      background: #e2e8f0;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #1e293b;
     }
 
-    /* 图6 成果展示 特殊 */
-    .deploy-success {
-      background: #0b1e33;
-      border-radius: 24px;
-      padding: 16px 18px;
-      color: white;
-      margin: 8px 0;
-    }
-    .deploy-success .link {
-      background: #1e2f44;
-      border-radius: 16px;
-      padding: 8px 14px;
-      font-family: monospace;
-      font-size: 13px;
-      word-break: break-all;
-      color: #b9d0f0;
-      margin: 8px 0;
+    .highlight {
+      background: #fef9c3;
+      padding: 0 0.4rem;
+      border-radius: 6px;
+      font-weight: 500;
     }
 
-    /* 图2 特殊红框提示 */
-    .red-border {
-      border: 2px solid #e11d48;
-      border-radius: 16px;
-      padding: 6px 10px;
-      background: #fff1f3;
-      font-size: 13px;
-      margin-top: 6px;
-      display: inline-block;
-    }
-
-    /* 响应式 */
-    @media (max-width: 440px) {
-      .card { padding: 20px 16px 22px; }
-      .cover-title { font-size: 24px; }
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem; }
+      h1 { font-size: 2rem; }
+      .demo-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-<div class="page-wrapper">
+  <div class="container">
+    <!-- 图1 封面风格 -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+      <div>
+        <h1>✨ 10分钟搞定！<br>AI生成网页 · GitHub免费上线HTML</h1>
+        <div class="subhead">
+          ⭐ 零基础 · DeepSeek实操教程 ⭐
+        </div>
+      </div>
+      <div style="background: #dbeafe; padding: 0.3rem 1.2rem; border-radius: 60px; font-size: 0.85rem; font-weight: 600; color: #1e4b8a;">
+        🌐 在线演示
+      </div>
+    </div>
 
-  <!-- 图1 封面 -->
-  <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-      <span style="background: #dbeafe; padding: 2px 14px; border-radius: 40px; font-size: 13px; font-weight: 600;">✨ 实操教程</span>
-      <span style="font-size: 20px;">⭐</span>
+    <!-- 装饰星星 -->
+    <div class="badge-group">
+      <span class="badge">🚀 无需服务器</span>
+      <span class="badge">🧩 完全免费</span>
+      <span class="badge">📄 纯静态HTML <span>CSS内嵌</span></span>
     </div>
-    <div class="cover-title">10分钟搞定！<br>AI生成网页 · GitHub免费上线HTML</div>
-    <div class="cover-sub">
-      <span>零基础</span>
-      <span style="background: #f1f5f9; padding: 0 12px; border-radius: 30px;">DeepSeek实操</span>
-    </div>
-    <div class="cover-meta">
-      <span>🚀 无需服务器</span>
-      <span>🧩 完全免费</span>
-      <span>📄 静态HTML</span>
-    </div>
-    <div class="cover-demo">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span>🌐 成品网页预览</span>
-        <span>部署成功</span>
-      </div>
-      <div style="background: #1e2f44; border-radius: 16px; padding: 6px 12px; margin-top: 8px; font-size: 12px; color: #b9d0f0;">
-        https://你的用户名.github.io
-      </div>
-    </div>
-    <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-      <span style="background: #fef9c3; padding: 2px 14px; border-radius: 40px; font-size: 12px;">📌 封面图</span>
-      <span style="background: #e9edf2; padding: 2px 14px; border-radius: 40px; font-size: 12px;">3:4竖版</span>
-    </div>
-  </div>
 
-  <!-- 图2 DeepSeek 生成代码步骤 -->
-  <div class="card">
-    <div class="step-tag"><span class="num">1</span> DeepSeek 生成代码</div>
-    <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">📋 复制提示词</div>
-    <div class="code-box">
-      <span class="comment">&gt; 帮我写一个完整独立的index.html网页，</span><br>
-      <span class="comment">包含css样式，不需要外部依赖，界面美观现代，</span><br>
-      <span class="comment">直接保存就能浏览器打开，适合部署在github pages。</span>
-    </div>
-    <div class="highlight-box" style="border-left-color: #2563eb;">
-      <span style="font-weight: 600;">✅ DeepSeek 返回完整代码</span>
-      <div style="font-family: monospace; font-size: 12px; background: #eef4ff; padding: 8px 10px; border-radius: 12px; margin-top: 6px; color: #1f2a44;">
-        &lt;!DOCTYPE html&gt;<br>
-        &lt;html&gt; ... &lt;style&gt; /* 全部CSS内嵌 */ &lt;/style&gt;
+    <!-- 图2 DeepSeek 生成代码步骤 (模拟) -->
+    <div style="background: #f1f6fe; border-radius: 32px; padding: 1.5rem 1.5rem 0.5rem 1.5rem; margin: 2rem 0 1.2rem;">
+      <div style="display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.8rem;">
+        <span style="background: #0b1e33; color: white; padding: 0.2rem 1rem; border-radius: 40px; font-weight: 600; font-size: 0.8rem;">1️⃣</span>
+        <span style="font-weight: 600; color: #0f172a;">DeepSeek 提示词</span>
+        <span style="background: #2563eb; color: white; border-radius: 40px; padding: 0 0.8rem; font-size: 0.7rem;">复制即用</span>
+      </div>
+      <div class="code-block" style="background: #0b1e2f; border-radius: 20px; margin-top: 0.2rem;">
+        <span style="color: #b9d0f0;">&gt; 帮我写一个完整独立的index.html网页，包含css样式，</span><br>
+        <span style="color: #b9d0f0;">不需要外部依赖，界面美观现代，直接保存就能浏览器打开，</span><br>
+        <span style="color: #b9d0f0;">适合部署在github pages。</span>
+      </div>
+      <div style="background: #ffffffd0; border-radius: 20px; padding: 0.8rem 1.2rem; margin: 1rem 0 0.5rem; border: 1px solid #b9d0f0;">
+        <span style="font-size: 0.9rem; color: #1e293b;">✅ DeepSeek 返回完整代码 (开头部分)</span>
+        <div style="font-family: monospace; font-size: 0.8rem; color: #1f2a44; background: #eef4ff; padding: 0.6rem; border-radius: 12px; margin-top: 6px;">
+          &lt;!DOCTYPE html&gt;<br>
+          &lt;html lang="zh"&gt;<br>
+          &lt;head&gt;<br>
+          &nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+          &nbsp;&nbsp;&lt;title&gt;我的页面&lt;/title&gt;<br>
+          &nbsp;&nbsp;&lt;style&gt; /* 全部CSS内嵌 */ ...
+        </div>
+        <div style="margin-top: 8px; font-size: 0.8rem; color: #2563eb;">📌 红框圈住输出完整代码位置 (示例)</div>
       </div>
     </div>
-    <div class="red-border">
-      🔴 红框圈住输出完整代码位置 (截图示意)
-    </div>
-    <div style="margin-top: 8px; font-size: 13px; color: #475569;">
-      ⚡ 不要截图几百行代码，只截开头一部分
-    </div>
-    <div class="footer-tags">
-      <span>#提示词</span>
-      <span>#AI编程</span>
-    </div>
-  </div>
 
-  <!-- 图3 本地测试HTML -->
-  <div class="card">
-    <div class="step-tag"><span class="num">2</span> 本地测试 HTML</div>
-    <div style="font-weight: 600; font-size: 16px;">📁 粘贴代码 → 保存</div>
-    <div class="mock-ui">
-      <span class="file">📄 index.html</span>
-      <span style="background: #d1d9e6; padding: 0 14px; border-radius: 30px; font-size: 13px;">.html ✔</span>
-      <span style="font-size: 14px; color: #2563eb;">双击打开</span>
-    </div>
-    <div style="background: #f1f6fe; border-radius: 18px; padding: 12px 14px; margin: 6px 0;">
-      <span style="font-weight: 600;">✅ 浏览器打开效果</span>
-      <div style="background: white; border-radius: 12px; padding: 8px 12px; margin-top: 6px; border: 1px solid #dce1e8; font-size: 14px;">
-        🌟 我的页面 · 美观现代
+    <!-- 图3 本地测试HTML + 图4 GitHub 新建仓库合并展示 -->
+    <div class="demo-grid">
+      <div class="demo-card">
+        <div class="card-icon">📝</div>
+        <h3>2️⃣ 本地测试</h3>
+        <p>复制代码 → 记事本粘贴 → 保存为 <strong style="background: #e9edf2; padding: 0 6px; border-radius: 6px;">index.html</strong></p>
+        <div class="mock-ui" style="margin: 0.8rem 0; background: #f8fafc;">
+          <span class="file">📄 index.html</span>
+          <span style="background: #d1d9e6; padding: 0 0.8rem; border-radius: 30px;">.html ✔</span>
+          <span style="font-size: 0.8rem; color: #2563eb;">双击打开</span>
+        </div>
+        <p style="font-size: 0.85rem;">✅ 浏览器显示正常 · 截图确认</p>
+        <div style="background: #e9f2f9; border-radius: 12px; padding: 0.5rem 0.8rem; font-size: 0.75rem; color: #1e3a5f;">
+          ⚠️ 后缀必须 .html 不是 .txt
+        </div>
       </div>
-    </div>
-    <div style="background: #fef3c7; border-radius: 14px; padding: 8px 12px; font-size: 13px; border-left: 4px solid #f59e0b;">
-      ⚠️ 后缀必须是 <strong>.html</strong> 不是 .txt
-    </div>
-    <div class="footer-tags">
-      <span>#本地测试</span>
-      <span>#记事本</span>
-    </div>
-  </div>
 
-  <!-- 图4 GitHub 新建仓库 -->
-  <div class="card">
-    <div class="step-tag"><span class="num">3</span> GitHub 新建仓库</div>
-    <div style="font-weight: 600; font-size: 16px;">🐙 创建公开仓库</div>
-    <div class="grid-2col">
-      <div class="grid-item">
-        <strong>仓库名称</strong>
-        <span style="background: #e2e8f0; padding: 0 8px; border-radius: 12px; font-family: monospace;">你的用户名.github.io</span>
+      <div class="demo-card">
+        <div class="card-icon">🐙</div>
+        <h3>3️⃣ GitHub 新建仓库</h3>
+        <p><strong>公开仓库</strong> · 名字: <span style="background: #e2e8f0; padding: 0 6px; border-radius: 6px;">你的用户名.github.io</span></p>
+        <div style="background: #f1f5f9; border-radius: 16px; padding: 0.5rem 1rem; margin: 0.5rem 0; border-left: 4px solid #3b82f6;">
+          <span style="font-weight: 500;">✅ Public</span> (公开)
+        </div>
+        <div style="display: flex; gap: 0.3rem; flex-wrap: wrap; margin: 0.6rem 0;">
+          <span style="background: #dbeafe; padding: 0.2rem 0.8rem; border-radius: 30px;">上传 index.html</span>
+          <span style="background: #dbeafe; padding: 0.2rem 0.8rem; border-radius: 30px;">提交保存</span>
+        </div>
       </div>
-      <div class="grid-item" style="background: #dbeafe;">
-        <strong>✅ Public</strong>
-        公开 (必须)
-      </div>
-    </div>
-    <div style="background: #f1f5f9; border-radius: 18px; padding: 12px 14px; margin: 6px 0;">
-      <span style="font-weight: 500;">📎 上传 index.html</span>
-      <div style="display: flex; gap: 8px; margin-top: 6px;">
-        <span style="background: white; padding: 2px 16px; border-radius: 30px; border: 1px solid #cbd5e1;">选择文件</span>
-        <span style="background: #2563eb; color: white; padding: 2px 16px; border-radius: 30px;">Commit</span>
-      </div>
-    </div>
-    <div style="font-size: 14px; color: #334155;">⬆️ 上传后提交保存</div>
-    <div class="footer-tags">
-      <span>#GitHub</span>
-      <span>#仓库</span>
-    </div>
-  </div>
 
-  <!-- 图5 上传文件+开启Pages 合并左右 -->
-  <div class="card">
-    <div class="step-tag"><span class="num">4</span> 上传 &amp; 开启 Pages</div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0;">
-      <div style="background: #f8fafc; border-radius: 18px; padding: 12px 10px; border: 1px solid #e2e8f0;">
-        <div style="font-weight: 600; font-size: 14px;">⬆️ 上传</div>
-        <div style="background: white; border-radius: 30px; padding: 4px 12px; border: 1px solid #cbd5e1; margin-top: 6px; font-size: 13px;">📎 index.html</div>
-        <span style="background: #2563eb; color: white; padding: 0 16px; border-radius: 30px; font-size: 12px; display: inline-block; margin-top: 4px;">提交</span>
-      </div>
-      <div style="background: #f8fafc; border-radius: 18px; padding: 12px 10px; border: 1px solid #e2e8f0;">
-        <div style="font-weight: 600; font-size: 14px;">⚙️ Pages</div>
-        <div style="background: white; border-radius: 30px; padding: 4px 12px; border: 1px solid #cbd5e1; margin-top: 6px; font-size: 13px;">Branch: main</div>
-        <span style="background: #22c55e; color: white; padding: 0 16px; border-radius: 30px; font-size: 12px; display: inline-block; margin-top: 4px;">保存</span>
+      <div class="demo-card">
+        <div class="card-icon">⚙️</div>
+        <h3>4️⃣ 开启 Pages</h3>
+        <p>Settings → Pages → 选择 <strong>main</strong> 分支</p>
+        <div style="background: #f1f5f9; border-radius: 30px; padding: 0.3rem 1rem; margin: 0.4rem 0; display: inline-block; font-size: 0.8rem;">
+          🟢 保存 · 等待1-2分钟
+        </div>
+        <div style="margin-top: 0.6rem; font-size: 0.9rem; background: #e6f0fa; border-radius: 40px; padding: 0.2rem 1rem; display: inline-block;">
+          🌍 获得公开网址
+        </div>
       </div>
     </div>
-    <div style="background: #eef4ff; border-radius: 16px; padding: 8px 14px; text-align: center; font-size: 14px;">
-      🔹 左：上传文件 &nbsp;|&nbsp; 🔹 右：Settings → Pages
-    </div>
-    <div style="margin-top: 6px; font-size: 14px; color: #1e293b;">⏳ 等待1-2分钟，生成公开网址</div>
-    <div class="footer-tags">
-      <span>#Pages</span>
-      <span>#部署</span>
-    </div>
-  </div>
 
-  <!-- 图6 成果展示 -->
-  <div class="card">
-    <div class="step-tag"><span class="num">🎉</span> 成果展示</div>
-    <div class="deploy-success">
-      <div style="display: flex; justify-content: space-between;">
-        <span style="font-weight: 600;">✅ 部署成功</span>
-        <span style="background: #2563eb; padding: 0 16px; border-radius: 40px; font-size: 12px;">公开链接</span>
+    <!-- 图5 上传文件+开启Pages 合并示意 (左右) -->
+    <div style="background: white; border-radius: 28px; padding: 1.2rem 1.5rem; margin: 1.8rem 0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;">
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+        <div style="flex: 1; min-width: 180px;">
+          <div style="display: flex; align-items: center; gap: 6px; font-weight: 600;">⬆️ 上传文件</div>
+          <div style="background: #f1f5f9; border-radius: 16px; padding: 0.8rem; margin-top: 6px;">
+            <span style="background: white; padding: 0.2rem 1rem; border-radius: 30px; border: 1px solid #cbd5e1;">📎 index.html</span>
+            <span style="background: #2563eb; color: white; padding: 0.1rem 1.2rem; border-radius: 30px; margin-left: 8px; font-size: 0.8rem;">Commit</span>
+          </div>
+        </div>
+        <div style="flex: 1; min-width: 180px;">
+          <div style="display: flex; align-items: center; gap: 6px; font-weight: 600;">⚙️ Pages 设置</div>
+          <div style="background: #f1f5f9; border-radius: 16px; padding: 0.8rem; margin-top: 6px;">
+            <span style="background: #e2e8f0; padding: 0.2rem 1rem; border-radius: 30px;">Branch: main</span>
+            <span style="background: #22c55e; color: white; padding: 0.1rem 1.2rem; border-radius: 30px; margin-left: 8px; font-size: 0.8rem;">✔ Save</span>
+          </div>
+        </div>
       </div>
-      <div class="link">
+      <div style="text-align: center; margin-top: 0.8rem; font-size: 0.85rem; color: #334155;">
+        🔹 左：上传 index.html  🔹 右：Settings → Pages 开启
+      </div>
+    </div>
+
+    <!-- 图6 成果展示 -->
+    <div style="background: #0b1e33; border-radius: 28px; padding: 1.5rem; color: white; margin: 1.5rem 0;">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;">
+        <span style="font-weight: 600; font-size: 1.2rem;">🎉 部署成功</span>
+        <span style="background: #2563eb; padding: 0.1rem 1.2rem; border-radius: 40px; font-size: 0.8rem;">公开链接</span>
+      </div>
+      <div style="background: #1e2f44; border-radius: 20px; padding: 0.8rem 1.2rem; margin: 0.8rem 0; word-break: break-all; font-family: monospace; color: #b9d0f0;">
         https://你的用户名.github.io/index.html
       </div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; margin-top: 4px;">
-        <span>🌍 任何人可访问</span>
+      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; font-size: 0.9rem;">
+        <span>✅ 任何人可访问</span>
+        <span>✅ 静态页面</span>
         <span>⏱️ 1-2分钟生效</span>
       </div>
     </div>
-    <div style="background: #f1f5f9; border-radius: 20px; padding: 12px 14px; margin: 6px 0; text-align: center;">
-      <span style="font-size: 28px;">🎊</span>
-      <div style="font-weight: 500;">发给你朋友都能打开！</div>
-    </div>
-    <div class="footer-tags">
-      <span>#上线</span>
-      <span>#个人网页</span>
-    </div>
-  </div>
 
-  <!-- 图7 避坑总结页 -->
-  <div class="card" style="background: #fefcf8;">
-    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-      <span style="font-size: 26px;">⚠️</span>
-      <span style="font-weight: 700; font-size: 20px;">小白高频踩坑</span>
+    <!-- 图7 避坑总结页 (白底清单) -->
+    <div style="background: white; border-radius: 32px; padding: 1.8rem 1.8rem 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid #e9edf2; margin-top: 1.8rem;">
+      <h3 style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; margin-bottom: 1rem;">⚠️ 小白高频踩坑</h3>
+      <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.8rem;">
+        <li style="display: flex; gap: 0.8rem; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.6rem;">
+          <span style="background: #fee2e2; color: #b91c1c; border-radius: 30px; padding: 0 0.8rem; font-weight: 600;">▪</span>
+          <span><strong>页面404</strong>：仓库名、文件名必须是 <span class="highlight">index.html</span> 大小写不要错</span>
+        </li>
+        <li style="display: flex; gap: 0.8rem; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.6rem;">
+          <span style="background: #fee2e2; color: #b91c1c; border-radius: 30px; padding: 0 0.8rem; font-weight: 600;">▪</span>
+          <span><strong>样式乱掉</strong>：一定要AI输出完整内嵌CSS，不要外部css文件</span>
+        </li>
+        <li style="display: flex; gap: 0.8rem; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.6rem;">
+          <span style="background: #fee2e2; color: #b91c1c; border-radius: 30px; padding: 0 0.8rem; font-weight: 600;">▪</span>
+          <span><strong>不要上传密钥、隐私信息！</strong> 仓库是公开的</span>
+        </li>
+        <li style="display: flex; gap: 0.8rem; align-items: flex-start;">
+          <span style="background: #fee2e2; color: #b91c1c; border-radius: 30px; padding: 0 0.8rem; font-weight: 600;">▪</span>
+          <span><strong>GitHub Pages</strong> 只支持静态HTML，不能跑后端</span>
+        </li>
+      </ul>
+      <div style="margin-top: 1.2rem; background: #f8fafc; border-radius: 40px; padding: 0.5rem 1.2rem; text-align: center; font-size: 0.9rem; color: #1e293b;">
+        📌 复制以上内容直接做图 · 7张3:4竖版截图素材
+      </div>
     </div>
-    <ul class="warning-list">
-      <li><span class="icon">▪</span> <span><strong>页面404</strong>：仓库名、文件名必须是 <span style="background: #fef9c3; padding: 0 6px;">index.html</span> 大小写不要错</span></li>
-      <li><span class="icon">▪</span> <span><strong>样式乱掉</strong>：一定要AI输出完整内嵌CSS，不要外部css文件</span></li>
-      <li><span class="icon">▪</span> <span><strong>不要上传密钥、隐私信息！</strong> 仓库是公开的</span></li>
-      <li><span class="icon">▪</span> <span><strong>GitHub Pages</strong> 只支持静态HTML，不能跑后端</span></li>
-    </ul>
-    <div style="background: #f1f5f9; border-radius: 40px; padding: 8px 14px; text-align: center; font-size: 14px; margin-top: 4px;">
-      📌 复制文案直接发 · 7张图已就绪
-    </div>
-    <div class="footer-tags" style="margin-top: 8px;">
-      <span>#避坑</span>
-      <span>#干货</span>
-      <span>#GitHubPages</span>
-    </div>
-  </div>
 
-  <!-- 底部说明：小红书正文（直接复制用） -->
-  <div style="background: white; border-radius: 28px; padding: 18px 18px 14px; box-shadow: 0 8px 20px -8px rgba(0,0,0,0.04); border: 1px solid #eef2f6; margin-top: 4px;">
-    <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">📝 小红书正文 (复制即用)</div>
-    <div style="font-size: 14px; line-height: 1.6; color: #1e293b; max-height: 200px; overflow-y: auto; padding-right: 4px;">
-      <strong>标题：</strong>不会写代码❗DeepSeek生成网页，GitHub免费发布HTML✨<br><br>
-      谁懂啊😭不用买服务器，零基础也能拥有自己公开网页！<br>
-      用DeepSeek生成网页代码，丢到GitHub就能免费上线。<br><br>
-      📌操作步骤：<br>
-      1️⃣打开DeepSeek，复制提示词，生成完整HTML代码<br>
-      2️⃣复制全部代码，新建记事本粘贴，保存为 index.html ⚠️后缀必须.html<br>
-      3️⃣登录GitHub，新建公开仓库，上传index.html<br>
-      4️⃣仓库设置→Pages，选择main分支，保存开启Pages。<br>
-      ⏰等待1-2分钟，生成外网链接。<br><br>
-      ❗避坑提醒：文件名必须index.html，CSS内嵌，公开仓库勿放隐私，仅支持静态。<br><br>
-      💬你想做什么网页？评论区聊聊<br>
-      <span style="background: #eef2f6; padding: 0 6px; border-radius: 12px;">#DeepSeek #githubpages #AI做网页 #html #零基础学编程</span>
+    <!-- 尾部标签 & 正文模拟 -->
+    <div class="footnote">
+      <div class="tag-group">
+        <span class="tag">#DeepSeek</span>
+        <span class="tag">#githubpages</span>
+        <span class="tag">#AI做网页</span>
+        <span class="tag">#html</span>
+        <span class="tag">#零基础学编程</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.3rem;">
+        <span>📱 小红书图文</span>
+        <span style="background: #ff0055; color: white; padding: 0 0.8rem; border-radius: 40px; font-size: 0.7rem;">AI辅助</span>
+      </div>
+    </div>
+    <div style="margin-top: 0.8rem; font-size: 0.85rem; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+      💬 你想做什么网页？个人主页/小工具？评论区聊聊
     </div>
   </div>
-</div>
 </body>
 </html>
